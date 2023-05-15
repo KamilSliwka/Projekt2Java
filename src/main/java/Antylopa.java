@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.Random;
 
 public class Antylopa extends Animal {
@@ -7,8 +8,14 @@ public class Antylopa extends Animal {
 
     @Override
     public String GetName() {
-        return ("Antylopa");
+        return ("A");
     }
+
+    @Override
+    public Color GetColor() {
+        return (new Color(158, 87, 57));
+    }
+
 
     @Override
     public void PrintOrganism() {

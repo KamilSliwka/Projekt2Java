@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Wilk extends Animal {
     public Wilk(int force, int age, int initiative, World currentWorld, coordinate position) {
         super(force, age, initiative, currentWorld, position);
@@ -5,7 +7,12 @@ public class Wilk extends Animal {
 
     @Override
     public String GetName() {
-        return ("Wilk");
+        return ("W");
+    }
+
+    @Override
+    public Color GetColor() {
+        return (Color.gray);
     }
 
     @Override

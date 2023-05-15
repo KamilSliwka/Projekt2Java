@@ -1,3 +1,4 @@
+import java.awt.*;
 
 public class Mlecz extends Plant {
     public Mlecz(int force, int age, int initiative, World currentWorld, coordinate position) {
@@ -6,7 +7,13 @@ public class Mlecz extends Plant {
 
     @Override
     public String GetName() {
-        return ("Mlecz");
+        return ("M");
+    }
+
+
+    @Override
+    public Color GetColor() {
+        return (Color.white);
     }
 
     @Override

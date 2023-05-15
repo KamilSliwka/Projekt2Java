@@ -1,3 +1,4 @@
+import java.awt.*;
 
 public class Owca extends Animal {
     public Owca(int force, int age, int initiative, World currentWorld, coordinate position) {
@@ -6,7 +7,13 @@ public class Owca extends Animal {
 
     @Override
     public String GetName() {
-        return ("Owca");
+        return ("O");
+    }
+
+
+    @Override
+    public Color GetColor() {
+        return (new Color(139, 255, 240));
     }
 
     @Override

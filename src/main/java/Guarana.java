@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Guarana extends Plant {
     public Guarana(int force, int age, int initiative, World currentWorld, coordinate position) {
         super(force, age, initiative, currentWorld, position);
@@ -5,7 +7,12 @@ public class Guarana extends Plant {
 
     @Override
     public String GetName() {
-        return ("Guarana");
+        return ("G");
+    }
+
+    @Override
+    public Color GetColor() {
+        return (Color.orange);
     }
 
     @Override

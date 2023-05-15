@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class WilczeJagody extends Plant {
     public WilczeJagody(int force, int age, int initiative, World currentWorld, coordinate position) {
         super(force, age, initiative, currentWorld, position);
@@ -5,7 +7,13 @@ public class WilczeJagody extends Plant {
 
     @Override
     public String GetName() {
-        return ("Jagody");
+        return ("J");
+    }
+
+
+    @Override
+    public Color GetColor() {
+        return (Color.black);
     }
 
     @Override

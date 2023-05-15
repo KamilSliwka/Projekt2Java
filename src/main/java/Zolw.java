@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Zolw extends Animal {
     public Zolw(int force, int age, int initiative, World currentWorld, coordinate position) {
         super(force, age, initiative, currentWorld, position);
@@ -13,7 +15,13 @@ public class Zolw extends Animal {
 
     @Override
     public String GetName() {
-        return ("Zolw");
+        return ("Z");
+    }
+
+
+    @Override
+    public Color GetColor() {
+        return (new Color(108, 152, 108));
     }
 
     @Override

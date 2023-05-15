@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Human extends Animal {
     private boolean specialAbility;
     private int counter;
@@ -38,7 +40,12 @@ public class Human extends Animal {
 
     @Override
     public String GetName() {
-        return ("Czlowiek");
+        return ("X");
+    }
+
+    @Override
+    public Color GetColor() {
+        return (Color.red);
     }
 
     @Override

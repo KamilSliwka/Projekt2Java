@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.Random;
 
 public abstract class Organism {
@@ -16,6 +17,8 @@ public abstract class Organism {
     }
 
     public abstract String GetName();
+
+    public abstract Color GetColor();
 
     public abstract void Action();
 

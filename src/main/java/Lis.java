@@ -1,9 +1,17 @@
+import java.awt.*;
 import java.util.Random;
 
 public class Lis extends Animal {
     public Lis(int force, int age, int initiative, World currentWorld, coordinate position) {
         super(force, age, initiative, currentWorld, position);
     }
+
+
+    @Override
+    public Color GetColor() {
+        return (new Color(255, 88, 27));
+    }
+
 
     @Override
     public coordinate Move() {
@@ -49,7 +57,7 @@ public class Lis extends Animal {
 
     @Override
     public String GetName() {
-        return ("Lis");
+        return ("L");
     }
 
     @Override

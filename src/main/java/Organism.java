@@ -133,4 +133,9 @@ public abstract class Organism {
         this.position = position;
 
     }
+
+    public AppGUI.boardField draw() {
+        return new AppGUI.boardField(this);
+    }
+
 }

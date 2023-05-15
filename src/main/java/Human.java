@@ -38,6 +38,30 @@ public class Human extends Animal {
         super.Action();
     }
 
+    public void Action(int move) {
+        setCounter(getCounter() + 1);
+        if (isSpecialAbility()) {
+            if (getCounter() > 5) {
+                setSpecialAbility(false);
+                setCounter(0);
+            }
+        }
+        int x = getPosition().getX();
+        int y = getPosition().getY();
+        if (move == 0 && x != 1) {
+            x--;
+        } else if (move == 1 && x != 20) {
+            x++;
+        } else if (move == 2 && y != 1) {
+            y--;
+        } else if (move == 3 && y != 20) {
+            y++;
+        } else if (move == 4 && getCounter() > 5) {
+            setSpecialAbility(true);
+        }
+
+    }
+
     @Override
     public String GetName() {
         return ("X");
@@ -58,12 +82,5 @@ public class Human extends Animal {
         return new Human(5, 1, 4, getCurrentWorld(), pos, false, 5);
     }
 
-//    @Override
-//    public coordinate Move() {
-//        KeyMove m = new KeyMove(this);
-//        ;
-//
-//        return this.getPosition();
-//    }
 }
 

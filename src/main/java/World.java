@@ -1,10 +1,11 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
-
 
 
 public class World {
@@ -13,15 +14,20 @@ public class World {
     private int roundCounter;
     private boolean game;
     private Organism[][] array;
-    //private JFrame frame;
+    private AppGUI.boardField[][] board;
+    private AppGUI appGUI;
 
-    public World() {
+
+    public World(AppGUI appGUI) {
         this.x = 20;
         this.y = 20;
         this.roundCounter = 1;
+        this.appGUI = appGUI;
         this.array = new Organism[20][20];
+        this.board = new AppGUI.boardField[20][20];
         //this.frame = new JFrame();
         this.game = true;
+
 
 
 //        for(int i=0;i<20;i++){
@@ -92,6 +98,18 @@ public class World {
         this.array[x - 1][y - 1] = org;
     }
 
+    public AppGUI.boardField getFieldFromBoard(int x, int y) {
+        if (x < 1 || x > this.x || y < 1 || y > this.y) {
+            return null;
+        } else {
+            return board[x - 1][y - 1];
+        }
+    }
+
+    public void setFieldOnBoard(AppGUI.boardField field, int x, int y) {
+        this.board[x - 1][y - 1] = field;
+    }
+
     public void RandomPlace(Organism org) {
         coordinate newPosition = new coordinate(1, 1);
 
@@ -102,6 +120,7 @@ public class World {
             newPosition.setY(rand.nextInt(20) + 1);
             if (getOrganismFromArray(newPosition.getX(), newPosition.getY()) == null) {
                 setOrganismOnArray(org, newPosition.getX(), newPosition.getY());
+                setFieldOnBoard(org.draw(), newPosition.getX(), newPosition.getY());
                 org.setPosition(newPosition);
                 break;
             }
@@ -109,7 +128,8 @@ public class World {
         }
     }
 
-    public void Round() {
+    public void Round(int m) {
+        setRoundCounter(getRoundCounter() + 1);
         Vector<Organism> move = new Vector<Organism>();
 
         for (int i = 1; i <= 20; i++) {
@@ -127,7 +147,11 @@ public class World {
         while (!move.isEmpty()) {
             Organism org = move.lastElement();
             if (org.getAge() != -1) {
-                org.Action();
+                if (org instanceof Human) {
+                    ((Human) org).Action(m);
+                } else {
+                    org.Action();
+                }
 
             } else {
                 setOrganismOnArray(null, org.getPosition().getX(), org.getPosition().getY());
@@ -140,12 +164,69 @@ public class World {
 
     }
 
+
+    public World(AppGUI appGUI, String fileName) throws FileNotFoundException {
+        Scanner worldSave = new Scanner(new File(fileName));
+//        System.out.println("Loading world from file: " + fileName);
+//        String message = "Loading world from file: " + fileName;
+//        getAppGUI().returnInformationContainer().addMessage(message);
+
+        this.appGUI = appGUI;
+        this.y = worldSave.nextInt();
+        this.x = worldSave.nextInt();
+        this.roundCounter = worldSave.nextInt();
+        //this.cooldown = worldSave.nextInt();
+        //this.humanAbilityTime = worldSave.nextInt();
+
+        array = new Organism[20][20];
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 20; j++) {
+                setOrganismOnArray(null, i, j);
+            }
+        }
+
+        //create and fill Board vector
+        board = new AppGUI.boardField[20][20];
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 20; j++) {
+                setFieldOnBoard(null, i, j);
+            }
+        }
+
+        while (worldSave.hasNext()) {
+            String name = worldSave.next();
+            int strength_val = worldSave.nextInt();
+            int initiative_val = worldSave.nextInt();
+            int positionX_val = worldSave.nextInt();
+            int positionY_val = worldSave.nextInt();
+            int age_val = worldSave.nextInt();
+            coordinate pos = new coordinate(positionX_val, positionY_val);
+            switch (name) {
+                case "Czlowiek" -> setOrganismOnArray(new Human(strength_val, age_val, initiative_val, this, pos, false, 5), positionX_val, positionY_val);
+                case "Antylopa" -> setOrganismOnArray(new Antylopa(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "Lis" -> setOrganismOnArray(new Lis(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "Wilk" -> setOrganismOnArray(new Wilk(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "Zolw" -> setOrganismOnArray(new Zolw(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "Owca" -> setOrganismOnArray(new Owca(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "Trawa" -> setOrganismOnArray(new Trawa(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "Mlecz" -> setOrganismOnArray(new Mlecz(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "Guarana" -> setOrganismOnArray(new Guarana(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "Barszcz" -> setOrganismOnArray(new BarszczSosnowskiego(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "Jagody" -> setOrganismOnArray(new WilczeJagody(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+            }
+        }
+        worldSave.close();
+    }
+
+
+    ///
+
     public void Game() {
         //PrintBoard();
         while (isGame()) {
             setRoundCounter(getRoundCounter() + 1);
             PrintBoard();
-            Round();
+            Round(1);
             Scanner scanner = new Scanner(System.in);
             System.out.println("Wciśnij Enter, aby kontynuować...");
             scanner.nextLine(); // odczytuje całą linijkę wprowadzoną przez użytkownika (włącznie z Enterem)

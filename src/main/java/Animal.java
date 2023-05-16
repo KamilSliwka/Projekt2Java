@@ -3,7 +3,6 @@ public abstract class Animal extends Organism {
     public Animal(int force, int age, int initiative, World currentWorld, coordinate position) {
         super(force, age, initiative, currentWorld, position);
     }
-
     @Override
     public void Action() {
 
@@ -57,7 +56,7 @@ public abstract class Animal extends Organism {
         } else if (org instanceof WilczeJagody) {
             getCurrentWorld().setOrganismOnArray(null, getPosition().getX(), getPosition().getY());
             this.setAge(-1);
-            String message = "Wilcze jagody zabijaja " + this.Name();
+            String message = "Wilcze Jagody zabijaja " + this.Name();
             getCurrentWorld().getAppGUI().returnInformationContainer().addMessage(message);
 
         } else if (org instanceof BarszczSosnowskiego) {
@@ -67,6 +66,11 @@ public abstract class Animal extends Organism {
             getCurrentWorld().getAppGUI().returnInformationContainer().addMessage(message);
         } else if (this.getForce() >= org.getForce()) {
             org.setAge(-1);
+            if (org instanceof Human) {
+                getCurrentWorld().setGame(false);
+                String message = " KONIEC GRY";
+                getCurrentWorld().getAppGUI().returnInformationContainer().addMessage(message);
+            }
             ChangePosition(pos);
             String message = this.Name() + " zabija " + org.Name();
             getCurrentWorld().getAppGUI().returnInformationContainer().addMessage(message);
@@ -74,6 +78,8 @@ public abstract class Animal extends Organism {
             this.setAge(-1);
             if (this instanceof Human) {
                 getCurrentWorld().setGame(false);
+                String message = " KONIEC GRY";
+                getCurrentWorld().getAppGUI().returnInformationContainer().addMessage(message);
             }
             String message = org.Name() + " zabija " + this.Name();
             getCurrentWorld().getAppGUI().returnInformationContainer().addMessage(message);
@@ -96,8 +102,6 @@ public abstract class Animal extends Organism {
 
     public void Birth() {
         coordinate newPosition = new coordinate(FindFreeField());
-        //coordinate newPosition = new coordinate(FindFreeField().getX(), FindFreeField().getY());
-        //newPosition = FindFreeField();
         if (newPosition.getX() == -1 && newPosition.getY() == -1) {
             //nie ma narodzin
             return;

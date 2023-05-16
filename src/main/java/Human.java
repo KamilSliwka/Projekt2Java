@@ -63,7 +63,6 @@ public class Human extends Animal {
         }
     }
 
-
     public coordinate Move(int move) {
         setCounter(getCounter() + 1);
         if (GetSpecialAbility()) {
@@ -77,21 +76,12 @@ public class Human extends Animal {
 
         if (move == 0 && x != 1) {
             x--;
-//            coordinate c = new coordinate(x,y);
-//            setPosition(c);
-
         } else if (move == 1 && x != 20) {
             x++;
-//            coordinate c = new coordinate(x,y);
-//            setPosition(c);
         } else if (move == 2 && y != 1) {
             y--;
-//            coordinate c = new coordinate(x,y);
-//            setPosition(c);
         } else if (move == 3 && y != 20) {
             y++;
-//            coordinate c = new coordinate(x,y);
-//            setPosition(c);
         } else if (move == 4 && getCounter() > 5) {
             setSpecialAbility(true);
             setCounter(0);

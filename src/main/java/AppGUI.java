@@ -29,7 +29,7 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
         ODSTEP = dimension.height / 100;
 
 
-        jFrame = new JFrame("Virtual World Java - Kamil Sliwinski 193740");
+        jFrame = new JFrame("Gra w Zycie - Kamil Sliwinski 193740");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setSize(900, 650);
         jFrame.setResizable(false);
@@ -69,13 +69,6 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == newGame) {
-//            int sizeX = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Podaj szerokosc swiata [min 4]", "20"));
-//            int sizeY = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Podaj wysokosc swiata [min 4]", "20"));
-//            while (sizeX < 4 && sizeY < 4) {
-//                JOptionPane.showMessageDialog(jFrame, "Rozmiar swiata musi byc wiekszy niz 4x4");
-//                sizeX = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Podaj szerokosc swiata [min 4]", "20"));
-//                sizeY = Integer.parseInt(JOptionPane.showInputDialog(jFrame, "Podaj wysokosc swiata [min 4]", "20"));
-//            }
             current_world = new World(this);
             this.CreateLayout();
             menu.add(save, 2);
@@ -92,7 +85,7 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
 
             this.CreateLayout();
             boardContainer.refreshBoard();
-            String message = "Loading world from file: " + file_name;
+            String message = "Wczytano z pliku : " + file_name;
             informationContainer.addMessage(message);
 
         } else if (e.getSource() == save) {
@@ -229,7 +222,6 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
             this.setBackground(Color.BLACK);
             this.sizeX = sizeX;
             this.sizeY = sizeY;
-
             //adding fields to layout
             for (int i = 1; i <= sizeY; i++) {
                 for (int j = 1; j <= sizeX; j++) {
@@ -395,11 +387,6 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
         }
         waitForTurn = false;
         boardContainer.refreshBoard();
-//        boolean game = current_world.isGame();
-//        if (!game) {
-//            System.exit(0);
-//
-//        }
     }
 
     @Override

@@ -1,8 +1,7 @@
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
@@ -28,6 +27,11 @@ public class World {
         //this.frame = new JFrame();
         this.game = true;
 
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 20; j++) {
+                board[i][j] = new AppGUI.boardField();
+            }
+        }
 
 
 //        for(int i=0;i<20;i++){
@@ -51,6 +55,8 @@ public class World {
             RandomPlace(new Guarana(0, 1, 0, this, null));
 
         }
+
+        //appGUI.getBoardContainer().refreshBoard();
     }
 
 
@@ -84,6 +90,14 @@ public class World {
 
     public void setGame(boolean game) {
         this.game = game;
+    }
+
+    public AppGUI getAppGUI() {
+        return appGUI;
+    }
+
+    public void setAppGUI(AppGUI appGUI) {
+        this.appGUI = appGUI;
     }
 
     public Organism getOrganismFromArray(int x, int y) {
@@ -120,11 +134,10 @@ public class World {
             newPosition.setY(rand.nextInt(20) + 1);
             if (getOrganismFromArray(newPosition.getX(), newPosition.getY()) == null) {
                 setOrganismOnArray(org, newPosition.getX(), newPosition.getY());
-                setFieldOnBoard(org.draw(), newPosition.getX(), newPosition.getY());
+                //setFieldOnBoard(org.draw(), newPosition.getX(), newPosition.getY());
                 org.setPosition(newPosition);
                 break;
             }
-
         }
     }
 
@@ -149,12 +162,12 @@ public class World {
             if (org.getAge() != -1) {
                 if (org instanceof Human) {
                     ((Human) org).Action(m);
+                    if (org.getAge() == -1) {
+                        setGame(false);
+                    }
                 } else {
                     org.Action();
                 }
-
-            } else {
-                setOrganismOnArray(null, org.getPosition().getX(), org.getPosition().getY());
             }
             move.remove(move.size() - 1);
             //delete
@@ -172,8 +185,8 @@ public class World {
 //        getAppGUI().returnInformationContainer().addMessage(message);
 
         this.appGUI = appGUI;
-        this.y = worldSave.nextInt();
-        this.x = worldSave.nextInt();
+        this.y = 20;
+        this.x = 20;
         this.roundCounter = worldSave.nextInt();
         //this.cooldown = worldSave.nextInt();
         //this.humanAbilityTime = worldSave.nextInt();
@@ -189,7 +202,7 @@ public class World {
         board = new AppGUI.boardField[20][20];
         for (int i = 0; i < 20; i++) {
             for (int j = 0; j < 20; j++) {
-                setFieldOnBoard(null, i, j);
+                board[i][j] = new AppGUI.boardField();
             }
         }
 
@@ -202,20 +215,49 @@ public class World {
             int age_val = worldSave.nextInt();
             coordinate pos = new coordinate(positionX_val, positionY_val);
             switch (name) {
-                case "Czlowiek" -> setOrganismOnArray(new Human(strength_val, age_val, initiative_val, this, pos, false, 5), positionX_val, positionY_val);
-                case "Antylopa" -> setOrganismOnArray(new Antylopa(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
-                case "Lis" -> setOrganismOnArray(new Lis(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
-                case "Wilk" -> setOrganismOnArray(new Wilk(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
-                case "Zolw" -> setOrganismOnArray(new Zolw(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
-                case "Owca" -> setOrganismOnArray(new Owca(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
-                case "Trawa" -> setOrganismOnArray(new Trawa(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
-                case "Mlecz" -> setOrganismOnArray(new Mlecz(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
-                case "Guarana" -> setOrganismOnArray(new Guarana(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
-                case "Barszcz" -> setOrganismOnArray(new BarszczSosnowskiego(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
-                case "Jagody" -> setOrganismOnArray(new WilczeJagody(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "X" -> setOrganismOnArray(new Human(strength_val, age_val, initiative_val, this, pos, false, 5), positionX_val, positionY_val);
+                case "A" -> setOrganismOnArray(new Antylopa(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "L" -> setOrganismOnArray(new Lis(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "W" -> setOrganismOnArray(new Wilk(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "Z" -> setOrganismOnArray(new Zolw(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "O" -> setOrganismOnArray(new Owca(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "T" -> setOrganismOnArray(new Trawa(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "M" -> setOrganismOnArray(new Mlecz(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "G" -> setOrganismOnArray(new Guarana(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "B" -> setOrganismOnArray(new BarszczSosnowskiego(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
+                case "J" -> setOrganismOnArray(new WilczeJagody(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
             }
         }
         worldSave.close();
+    }
+
+    public void saveWorld(String fileName) {
+        try {
+            PrintWriter writer = new PrintWriter(new FileWriter(fileName));
+            String message = "Saving world to file: " + fileName;
+            getAppGUI().returnInformationContainer().addMessage(message);
+
+            //writer.println(height);
+            // writer.println(width);
+            writer.println(roundCounter);
+            // writer.println(cooldown);
+            //writer.println(humanAbilityTime);
+
+            for (int i = 0; i < 20; i++) {
+                for (int j = 0; j < 20; j++) {
+                    if (getOrganismFromArray(i, j) != null) {
+                        Organism org = getOrganismFromArray(i, j);
+                        writer.println(org.GetName() + " " + org.getForce() + " " + org.getInitiative() + " " + org.getPosition().getX() + " " + org.getPosition().getY() + " " + org.getAge());
+                    }
+                }
+            }
+
+            message = "Game has been successfully saved to file: " + fileName;
+            getAppGUI().returnInformationContainer().addMessage(message);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

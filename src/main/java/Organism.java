@@ -134,8 +134,8 @@ public abstract class Organism {
 
     }
 
-    public AppGUI.boardField draw() {
-        return new AppGUI.boardField(this);
-    }
+//    public AppGUI.boardField draw() {
+//        return new AppGUI.boardField(this);
+//    }
 
 }

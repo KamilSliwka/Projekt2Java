@@ -10,7 +10,7 @@ public abstract class Animal extends Organism {
         setAge(getAge() + 1);
         coordinate newPosition;
 
-        newPosition = Move();
+        newPosition = new coordinate(Move());
         if (getCurrentWorld().getOrganismFromArray(newPosition.getX(), newPosition.getY()) == null) {
             getCurrentWorld().setOrganismOnArray(this, newPosition.getX(), newPosition.getY());
             getCurrentWorld().setOrganismOnArray(null, this.getPosition().getX(), this.getPosition().getY());
@@ -32,20 +32,20 @@ public abstract class Animal extends Organism {
         } else if (org instanceof Human && org.getForce() <= this.getForce() && org.GetSpecialAbility()) {
 
         } else if (org instanceof Zolw && this.getForce() >= 5) {
-            //org.setAge(-1);
+            org.setAge(-1);
             ChangePosition(pos);
         } else if (org instanceof Antylopa && this.getForce() >= org.getForce()) {
-            coordinate newPosition = org.FindFreeField();
+            coordinate newPosition = new coordinate(org.FindFreeField());
             boolean antylopeEscape = org.RandomProbability(50);
             if (newPosition.getX() == -1 && newPosition.getY() == -1) {
-                //org.setAge(-1);
+                org.setAge(-1);
                 ChangePosition(pos);
             } else if (antylopeEscape) {
                 org.getCurrentWorld().setOrganismOnArray(org, newPosition.getX(), newPosition.getY());
                 org.setPosition(newPosition);
                 ChangePosition(pos);
             } else {
-                //org.setAge(-1);
+                org.setAge(-1);
                 ChangePosition(pos);
             }
         } else if (org instanceof Guarana) {
@@ -60,10 +60,13 @@ public abstract class Animal extends Organism {
             getCurrentWorld().setOrganismOnArray(null, getPosition().getX(), getPosition().getY());
             this.setAge(-1);
         } else if (this.getForce() >= org.getForce()) {
-            //org.setAge(-1);
+            org.setAge(-1);
             ChangePosition(pos);
         } else if (this.getForce() < org.getForce()) {
             //this.setAge(-1);
+            if (this instanceof Human) {
+                getCurrentWorld().setGame(false);
+            }
             getCurrentWorld().setOrganismOnArray(null, getPosition().getX(), getPosition().getY());
         }
 
@@ -82,7 +85,8 @@ public abstract class Animal extends Organism {
     }
 
     public void Birth() {
-        coordinate newPosition = new coordinate(FindFreeField().getX(), FindFreeField().getY());
+        coordinate newPosition = new coordinate(FindFreeField());
+        //coordinate newPosition = new coordinate(FindFreeField().getX(), FindFreeField().getY());
         //newPosition = FindFreeField();
         if (newPosition.getX() == -1 && newPosition.getY() == -1) {
             //nie ma narodzin

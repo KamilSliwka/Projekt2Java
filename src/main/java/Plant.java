@@ -9,7 +9,8 @@ public abstract class Plant extends Organism {
         setAge(getAge() + 1);
         boolean spread = RandomProbability(10);
         if (spread) {
-            coordinate newPosition = new coordinate(FindFreeField().getX(), FindFreeField().getY());
+            coordinate newPosition = new coordinate(FindFreeField());
+            //coordinate newPosition = new coordinate(FindFreeField().getX(), FindFreeField().getY());
             if (newPosition.getX() == -1 && newPosition.getY() == -1) {
                 return;
             } else {

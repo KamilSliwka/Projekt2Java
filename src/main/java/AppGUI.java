@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
 
 public class AppGUI extends JFrame implements ActionListener, KeyListener, MouseListener {
     private final JMenuItem newGame, load, save, exit;
@@ -8,6 +9,15 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
     private final JMenu menu;
     private final JFrame jFrame;
     private final JPanel mainContainer;
+
+    public BoardContainer getBoardContainer() {
+        return boardContainer;
+    }
+
+    public void setBoardContainer(BoardContainer boardContainer) {
+        this.boardContainer = boardContainer;
+    }
+
     private BoardContainer boardContainer;
 
     private InformationContainer informationContainer;
@@ -70,26 +80,27 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
             this.CreateLayout();
             menu.add(save, 2);
 
-//        } else if (e.getSource() == load) {
-//            String file_name = JOptionPane.showInputDialog(null, "Enter a filename:", "Input", JOptionPane.PLAIN_MESSAGE);
-//            if (file_name != null && !file_name.isEmpty()) {
-//                try {
-//                    current_world = new World(this, file_name);
-//                } catch (FileNotFoundException ex) {
-//                    JOptionPane.showMessageDialog(jFrame, "Podany plik nie istnieje!");
-//                    throw new RuntimeException(ex);
-//                }
-//                this.CreateLayout();
-//                boardContainer.refreshBoard();
-//                String message = "Loading world from file: " + file_name;
-//                informationContainer.addMessage(message);
-//            }
-//        } else if (e.getSource() == save) {
-//            String file_name = JOptionPane.showInputDialog(null, "Enter a filename:", "Input", JOptionPane.PLAIN_MESSAGE);
-//            if (file_name != null && !file_name.isEmpty()) {
-//                System.out.println("User entered: " + file_name);
-//                current_world.saveWorld(file_name);
-//            }
+        } else if (e.getSource() == load) {
+            String file_name = "plik.txt";
+            try {
+                current_world = new World(this, file_name);
+
+            } catch (FileNotFoundException ex) {
+                JOptionPane.showMessageDialog(jFrame, "Podany plik nie istnieje!");
+                throw new RuntimeException(ex);
+            }
+
+            this.CreateLayout();
+            boardContainer.refreshBoard();
+            String message = "Loading world from file: " + file_name;
+            informationContainer.addMessage(message);
+
+        } else if (e.getSource() == save) {
+            String file_name = "plik.txt";
+            if (file_name != null && !file_name.isEmpty()) {
+                System.out.println("User entered: " + file_name);
+                current_world.saveWorld(file_name);
+            }
         } else if (e.getSource() == exit) {
             System.exit(0);
         }
@@ -189,18 +200,13 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
     public static class boardField extends JLabel {
         private Organism organism;
 
-        public boardField(Organism organism) {
+        public boardField() {
             super();
-            this.organism = organism;
+            this.organism = null;
             this.setOpaque(true);
-            if (organism != null) {
-                this.setBackground(organism.GetColor());
-                this.setText(organism.GetName());
-                this.setVerticalAlignment(SwingConstants.CENTER);
-                this.setHorizontalAlignment(SwingConstants.CENTER);
-            } else {
-                this.setBackground(Color.WHITE);
-            }
+
+            this.setBackground(Color.WHITE);
+
             this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         }
 
@@ -225,22 +231,22 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
             this.sizeY = sizeY;
 
             //adding fields to layout
-//            for (int i = 1; i <= sizeY; i++) {
-//                for (int j = 1; j <= sizeX; j++) {
-//                    final int row = i;
-//                    final int col = j;
-//                    this.add(current_world.getFieldFromBoard(i,j));
-////                    current_world.getFieldFromBoard(i,j).addMouseListener(new MouseAdapter() {
-////                        @Override
-////                        public void mouseClicked(MouseEvent e) {
-////                            if (current_world.getOrganismFromArray(row,col) == null) {
-////                                System.out.println("Puste pole zostało kliknięte!");
-////                               // new OrganismAddList(col, row);
-////                            }
-////                        }
-////                    });
-//                }
-//            }
+            for (int i = 1; i <= sizeY; i++) {
+                for (int j = 1; j <= sizeX; j++) {
+                    final int row = i;
+                    final int col = j;
+                    this.add(current_world.getFieldFromBoard(i, j));
+//                    current_world.getFieldFromBoard(i,j).addMouseListener(new MouseAdapter() {
+//                        @Override
+//                        public void mouseClicked(MouseEvent e) {
+//                            if (current_world.getOrganismFromArray(row,col) == null) {
+//                                System.out.println("Puste pole zostało kliknięte!");
+//                               // new OrganismAddList(col, row);
+//                            }
+//                        }
+//                    });
+                }
+            }
             this.setLayout(new GridLayout(sizeY, sizeX));
         }
 
@@ -284,7 +290,7 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
         }
 
         public void refreshMessages() {
-            text = header + "TURA [" + current_world.getRoundCounter() + "] \n" + text;
+            text = header + "TURA : " + current_world.getRoundCounter() + " \n" + text;
             textArea.setText(text);
         }
 
@@ -366,34 +372,33 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
                 case KeyEvent.VK_UP -> {
                     current_world.Round(0);
                     waitForTurn = true;
-                    //current_world.setWait_for_turn(true);
                 }
                 case KeyEvent.VK_DOWN -> {
                     current_world.Round(1);
                     waitForTurn = true;
-                    //current_world.setWait_for_turn(true);
                 }
                 case KeyEvent.VK_LEFT -> {
                     current_world.Round(2);
                     waitForTurn = true;
-                    //current_world.setWait_for_turn(true);
                 }
                 case KeyEvent.VK_RIGHT -> {
                     current_world.Round(3);
                     waitForTurn = true;
-                    //current_world.setWait_for_turn(true);
                 }
                 case KeyEvent.VK_R -> {
                     current_world.Round(4);
                     waitForTurn = true;
-                    //current_world.setWait_for_turn(true);
                 }
             }
             informationContainer.refreshMessages();
         }
         waitForTurn = false;
-        //current_world.setWait_for_turn(false);
         boardContainer.refreshBoard();
+        boolean game = current_world.isGame();
+        if (!game) {
+            System.exit(0);
+
+        }
     }
 
     @Override
@@ -432,8 +437,10 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
         informationContainer = new InformationContainer();
         mainContainer.add(new LegendContainer());
         mainContainer.add(informationContainer);
+        boardContainer.refreshBoard();
         SwingUtilities.updateComponentTreeUI(jFrame);
         jFrame.requestFocusInWindow();
+
     }
 
 

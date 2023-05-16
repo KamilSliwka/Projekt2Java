@@ -8,6 +8,11 @@ public class coordinate {
         this.y = y;
     }
 
+    public coordinate(coordinate c) {
+        this.x = c.getX();
+        this.y = c.getY();
+    }
+
     public int getX() {
         return x;
     }

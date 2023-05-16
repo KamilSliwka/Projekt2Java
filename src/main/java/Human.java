@@ -39,6 +39,23 @@ public class Human extends Animal {
     }
 
     public void Action(int move) {
+        setAge(getAge() + 1);
+        coordinate newPosition;
+
+        newPosition = Move(move);
+        if (getCurrentWorld().getOrganismFromArray(newPosition.getX(), newPosition.getY()) == null) {
+            getCurrentWorld().setOrganismOnArray(this, newPosition.getX(), newPosition.getY());
+            getCurrentWorld().setOrganismOnArray(null, this.getPosition().getX(), this.getPosition().getY());
+            setPosition(newPosition);
+
+        } else {
+            if (!(newPosition.equals(getPosition())))
+                Collision(newPosition);
+        }
+    }
+
+
+    public coordinate Move(int move) {
         setCounter(getCounter() + 1);
         if (isSpecialAbility()) {
             if (getCounter() > 5) {
@@ -48,18 +65,29 @@ public class Human extends Animal {
         }
         int x = getPosition().getX();
         int y = getPosition().getY();
+
         if (move == 0 && x != 1) {
             x--;
+//            coordinate c = new coordinate(x,y);
+//            setPosition(c);
+
         } else if (move == 1 && x != 20) {
             x++;
+//            coordinate c = new coordinate(x,y);
+//            setPosition(c);
         } else if (move == 2 && y != 1) {
             y--;
+//            coordinate c = new coordinate(x,y);
+//            setPosition(c);
         } else if (move == 3 && y != 20) {
             y++;
+//            coordinate c = new coordinate(x,y);
+//            setPosition(c);
         } else if (move == 4 && getCounter() > 5) {
             setSpecialAbility(true);
         }
-
+        coordinate c = new coordinate(x, y);
+        return c;
     }
 
     @Override

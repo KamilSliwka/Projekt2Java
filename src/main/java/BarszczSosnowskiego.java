@@ -45,6 +45,8 @@ public class BarszczSosnowskiego extends Plant {
 
                         } else {
                             org.setAge(-1);
+                            String message = "Barszcz zabija " + org.Name();
+                            getCurrentWorld().getAppGUI().returnInformationContainer().addMessage(message);
                             getCurrentWorld().setOrganismOnArray(null, death.getX() + i, death.getY() + j);
                         }
                     }

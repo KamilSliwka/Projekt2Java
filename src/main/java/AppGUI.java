@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
@@ -102,87 +104,99 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
     }
 
 
-//
-//    public class OrganismAddList extends JFrame implements ActionListener, ListSelectionListener {
-//        private final JList<String> jList;
-//        private final JFrame frame;
-//
-//        public OrganismAddList(int x, int y) {
-//            frame = new JFrame("Dodaj organizm");
-//            frame.setBounds(100,200, 200, 250);
-//            String[] listaOrganizmow = new String[]{"Barszcz Sosnowskiego", "Guarana", "Mlecz", "Trawa",
-//                    "Wilcze Jagody", "Antylopa", "Lis", "Owca", "Wilk", "Zolw"
-//            };
-//            DefaultListModel<String> listModel = new DefaultListModel<>();
-//            for (String item : listaOrganizmow) {
-//                listModel.addElement(item);
-//            }
-//            jList = new JList<>(listModel);
-//            jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//            jList.addListSelectionListener(new ListSelectionListener() {
-//                @Override
-//                public void valueChanged(ListSelectionEvent e) {
-//                    if (!e.getValueIsAdjusting()) {
-//                        String selectedItem = jList.getSelectedValue();
-//                        String message="";
-//                        switch (selectedItem) {
-//                            case "Barszcz Sosnowskiego" -> {
-//                                current_world.addOrganism(new Barszcz(current_world, x, y), x, y);
-//                                message = "Dodano Barszcz na pozycje: " + x + ", " + y;
-//                            }
-//                            case "Guarana" -> {
-//                                current_world.addOrganism(new Guarana(current_world, x, y), x, y);
-//                                message = "Dodano Gurane na pozycje: " + x + ", " + y;
-//                            }
-//                            case "Mlecz" -> {
-//                                current_world.addOrganism(new Mlecz(current_world, x, y), x, y);
-//                                message = "Dodano Mlecz na pozycje: " + x + ", " + y;
-//                            }
-//                            case "Trawa" -> {
-//                                current_world.addOrganism(new Trawa(current_world, x, y), x, y);
-//                                message = "Dodano Trawe na pozycje: " + x + ", " + y;
-//                            }
-//                            case "Wilcze Jagody" -> {
-//                                current_world.addOrganism(new Jagody(current_world, x, y), x, y);
-//                                message = "Dodano Jagody na pozycje: " + x + ", " + y;
-//                            }
-//                            case "Antylopa" -> {
-//                                current_world.addOrganism(new Antylopa(current_world, x, y, 1), x, y);
-//                                message = "Dodano Antylope na pozycje: " + x + ", " + y;
-//                            }
-//                            case "Lis" -> {
-//                                current_world.addOrganism(new Lis(current_world, x, y, 1), x, y);
-//                                message = "Dodano Lisa na pozycje: " + x + ", " + y;
-//                            }
-//                            case "Owca" -> {
-//                                current_world.addOrganism(new Owca(current_world, x, y, 1), x, y);
-//                                message = "Dodano Owce na pozycje: " + x + ", " + y;
-//                            }
-//                            case "Wilk" -> {
-//                                current_world.addOrganism(new Wilk(current_world, x, y, 1), x, y);
-//                                message = "Dodano Wilka na pozycje: " + x + ", " + y;
-//                            }
-//                            case "Zolw" -> {
-//                                current_world.addOrganism(new Zolw(current_world, x, y, 1), x, y);
-//                                message = "Dodano Zolwia na pozycje: " + x + ", " + y;
-//                            }
-//                        }
-//                        current_world.getAppGUI().informationContainer.addMessage(message);
-//                        boardContainer.refreshBoard();
-//                        frame.setVisible(false);
-//                    }
-//                }
-//            });
-//            JScrollPane scrollPane = new JScrollPane(jList);
-//            frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-//            frame.setVisible(true);
-//        }
-//
-//        @Override
-//        public void actionPerformed(ActionEvent e) {}
-//        @Override
-//        public void valueChanged(ListSelectionEvent e) {}
-//    }
+    public class OrganismAddList extends JFrame implements ActionListener, ListSelectionListener {
+        private final JList<String> jList;
+        private final JFrame frame;
+
+        public OrganismAddList(int x, int y) {
+            frame = new JFrame("Dodaj organizm");
+            frame.setBounds(100, 200, 200, 250);
+            String[] listaOrganizmow = new String[]{"Barszcz Sosnowskiego", "Guarana", "Mlecz", "Trawa",
+                    "Wilcze Jagody", "Antylopa", "Lis", "Owca", "Wilk", "Zolw"
+            };
+            DefaultListModel<String> listModel = new DefaultListModel<>();
+            for (String item : listaOrganizmow) {
+                listModel.addElement(item);
+            }
+            jList = new JList<>(listModel);
+            jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            jList.addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    if (!e.getValueIsAdjusting()) {
+                        String selectedItem = jList.getSelectedValue();
+                        String message = "";
+                        switch (selectedItem) {
+                            case "Barszcz Sosnowskiego" -> {
+                                coordinate pos = new coordinate(x, y);
+                                current_world.setOrganismOnArray(new BarszczSosnowskiego(0, 1, 0, current_world, pos), x, y);
+                                message = "Dodano Barszcz na pozycje: " + x + ", " + y;
+                            }
+                            case "Guarana" -> {
+                                coordinate pos = new coordinate(x, y);
+                                current_world.setOrganismOnArray(new Guarana(0, 1, 0, current_world, pos), x, y);
+                                message = "Dodano Gurane na pozycje: " + x + ", " + y;
+                            }
+                            case "Mlecz" -> {
+                                coordinate pos = new coordinate(x, y);
+                                current_world.setOrganismOnArray(new Mlecz(0, 1, 0, current_world, pos), x, y);
+                                message = "Dodano Mlecz na pozycje: " + x + ", " + y;
+                            }
+                            case "Trawa" -> {
+                                coordinate pos = new coordinate(x, y);
+                                current_world.setOrganismOnArray(new Trawa(0, 1, 0, current_world, pos), x, y);
+                                message = "Dodano Trawe na pozycje: " + x + ", " + y;
+                            }
+                            case "Wilcze Jagody" -> {
+                                coordinate pos = new coordinate(x, y);
+                                current_world.setOrganismOnArray(new WilczeJagody(99, 1, 0, current_world, pos), x, y);
+                                message = "Dodano Jagody na pozycje: " + x + ", " + y;
+                            }
+                            case "Antylopa" -> {
+                                coordinate pos = new coordinate(x, y);
+                                current_world.setOrganismOnArray(new Antylopa(4, 1, 4, current_world, pos), x, y);
+                                message = "Dodano Antylope na pozycje: " + x + ", " + y;
+                            }
+                            case "Lis" -> {
+                                coordinate pos = new coordinate(x, y);
+                                current_world.setOrganismOnArray(new Lis(3, 1, 7, current_world, pos), x, y);
+                                message = "Dodano Lisa na pozycje: " + x + ", " + y;
+                            }
+                            case "Owca" -> {
+                                coordinate pos = new coordinate(x, y);
+                                current_world.setOrganismOnArray(new Owca(4, 1, 4, current_world, pos), x, y);
+                                message = "Dodano Owce na pozycje: " + x + ", " + y;
+                            }
+                            case "Wilk" -> {
+                                coordinate pos = new coordinate(x, y);
+                                current_world.setOrganismOnArray(new Wilk(9, 1, 5, current_world, pos), x, y);
+                                message = "Dodano Wilka na pozycje: " + x + ", " + y;
+                            }
+                            case "Zolw" -> {
+                                coordinate pos = new coordinate(x, y);
+                                current_world.setOrganismOnArray(new Zolw(2, 1, 1, current_world, pos), x, y);
+                                message = "Dodano Zolwia na pozycje: " + x + ", " + y;
+                            }
+                        }
+                        current_world.getAppGUI().informationContainer.addMessage(message);
+                        boardContainer.refreshBoard();
+                        frame.setVisible(false);
+                    }
+                }
+            });
+            JScrollPane scrollPane = new JScrollPane(jList);
+            frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+            frame.setVisible(true);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        }
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+        }
+    }
 
 //org list
 
@@ -228,15 +242,15 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
                     final int row = i;
                     final int col = j;
                     this.add(current_world.getFieldFromBoard(i, j));
-//                    current_world.getFieldFromBoard(i,j).addMouseListener(new MouseAdapter() {
-//                        @Override
-//                        public void mouseClicked(MouseEvent e) {
-//                            if (current_world.getOrganismFromArray(row,col) == null) {
-//                                System.out.println("Puste pole zostało kliknięte!");
-//                               // new OrganismAddList(col, row);
-//                            }
-//                        }
-//                    });
+                    current_world.getFieldFromBoard(i, j).addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            if (current_world.getOrganismFromArray(row, col) == null) {
+                                System.out.println("Puste pole zostało kliknięte!");
+                                new OrganismAddList(row, col);
+                            }
+                        }
+                    });
                 }
             }
             this.setLayout(new GridLayout(sizeY, sizeX));

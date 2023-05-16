@@ -82,9 +82,16 @@ public class Human extends Animal {
             y--;
         } else if (move == 3 && y != 20) {
             y++;
-        } else if (move == 4 && getCounter() > 5) {
-            setSpecialAbility(true);
-            setCounter(0);
+        } else if (move == 4) {
+            if (getCounter() > 5) {
+                setSpecialAbility(true);
+                setCounter(0);
+                String message = "Super moc aktywowana ";
+                getCurrentWorld().getAppGUI().returnInformationContainer().addMessage(message);
+            } else {
+                String message = "Nie mozna aktywowac super mocy ";
+                getCurrentWorld().getAppGUI().returnInformationContainer().addMessage(message);
+            }
         }
         coordinate c = new coordinate(x, y);
         return c;

@@ -169,6 +169,9 @@ public class World {
                     org.Action();
                 }
             }
+            if (org instanceof Human && org.getAge() == -1) {
+                setGame(false);
+            }
             move.remove(move.size() - 1);
             //delete
 
@@ -188,15 +191,16 @@ public class World {
         this.y = 20;
         this.x = 20;
         this.roundCounter = worldSave.nextInt();
+        this.setGame(true);
         //this.cooldown = worldSave.nextInt();
         //this.humanAbilityTime = worldSave.nextInt();
 
         array = new Organism[20][20];
-        for (int i = 0; i < 20; i++) {
-            for (int j = 0; j < 20; j++) {
-                setOrganismOnArray(null, i, j);
-            }
-        }
+//        for (int i = 0; i < 20; i++) {
+//            for (int j = 0; j < 20; j++) {
+//                setOrganismOnArray(null, i, j);
+//            }
+//        }
 
         //create and fill Board vector
         board = new AppGUI.boardField[20][20];

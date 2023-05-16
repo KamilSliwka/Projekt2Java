@@ -10,7 +10,8 @@ public class Human extends Animal {
         this.counter = counter;
     }
 
-    public boolean isSpecialAbility() {
+    @Override
+    public boolean GetSpecialAbility() {
         return specialAbility;
     }
 
@@ -29,7 +30,7 @@ public class Human extends Animal {
     @Override
     public void Action() {
         setCounter(getCounter() + 1);
-        if (isSpecialAbility()) {
+        if (GetSpecialAbility()) {
             if (getCounter() > 5) {
                 setSpecialAbility(false);
                 setCounter(0);
@@ -57,7 +58,7 @@ public class Human extends Animal {
 
     public coordinate Move(int move) {
         setCounter(getCounter() + 1);
-        if (isSpecialAbility()) {
+        if (GetSpecialAbility()) {
             if (getCounter() > 5) {
                 setSpecialAbility(false);
                 setCounter(0);
@@ -85,6 +86,7 @@ public class Human extends Animal {
 //            setPosition(c);
         } else if (move == 4 && getCounter() > 5) {
             setSpecialAbility(true);
+            setCounter(0);
         }
         coordinate c = new coordinate(x, y);
         return c;

@@ -10,6 +10,10 @@ public class Owca extends Animal {
         return ("O");
     }
 
+    @Override
+    public String Name() {
+        return ("Owca");
+    }
 
     @Override
     public Color GetColor() {

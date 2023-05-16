@@ -314,7 +314,7 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
             int species_number = 11;
             JLabel[] labels = new JLabel[species_number];
             Font font = new Font("Arial", Font.BOLD, 14);
-            Color fontColor = Color.BLACK;
+            Color fontColor = Color.darkGray;
 
             labels[0] = new JLabel("Barszcz");
             labels[0].setBackground(Color.yellow);
@@ -367,7 +367,8 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
         informationContainer.clearMessages();
         int keyCode = e.getKeyCode();
         boolean waitForTurn = false;
-        if (current_world.isGame() && !waitForTurn) {
+        boolean game = current_world.isGame();
+        if (game && !waitForTurn) {
             switch (keyCode) {
                 case KeyEvent.VK_UP -> {
                     current_world.Round(0);
@@ -394,11 +395,11 @@ public class AppGUI extends JFrame implements ActionListener, KeyListener, Mouse
         }
         waitForTurn = false;
         boardContainer.refreshBoard();
-        boolean game = current_world.isGame();
-        if (!game) {
-            System.exit(0);
-
-        }
+//        boolean game = current_world.isGame();
+//        if (!game) {
+//            System.exit(0);
+//
+//        }
     }
 
     @Override

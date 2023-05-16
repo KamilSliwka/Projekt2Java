@@ -2,6 +2,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
@@ -15,6 +16,7 @@ public class World {
     private Organism[][] array;
     private AppGUI.boardField[][] board;
     private AppGUI appGUI;
+    private Organism human;
 
 
     public World(AppGUI appGUI) {
@@ -41,7 +43,8 @@ public class World {
 //        }
         // random organism
         //coordinate tmp =null;
-        RandomPlace(new Human(5, 1, 4, this, null, false, 5));
+        this.human = new Human(5, 1, 4, this, null, false, 5);
+        RandomPlace(human);
         for (int i = 0; i < 5; i++) {
             RandomPlace(new Antylopa(4, 1, 4, this, null));
             RandomPlace(new Wilk(9, 1, 5, this, null));
@@ -157,6 +160,22 @@ public class World {
                 }
             }
         }
+        for (Organism organism : move) {
+            organism.setAge(organism.getAge() + 1);
+        }
+
+        // Sort organisms by initiative
+        move.sort(new Comparator<Organism>() {
+            @Override
+            public int compare(Organism o1, Organism o2) {
+                if (o2.getInitiative() != o1.getInitiative()) {
+                    return o2.getInitiative() - o1.getInitiative();
+                } else {
+                    return o2.getAge() - o1.getAge();
+                }
+            }
+        });
+
         while (!move.isEmpty()) {
             Organism org = move.lastElement();
             if (org.getAge() != -1) {
@@ -171,6 +190,8 @@ public class World {
             }
             if (org instanceof Human && org.getAge() == -1) {
                 setGame(false);
+                String message = " KONIEC GRY";
+                getAppGUI().returnInformationContainer().addMessage(message);
             }
             move.remove(move.size() - 1);
             //delete
@@ -192,8 +213,15 @@ public class World {
         this.x = 20;
         this.roundCounter = worldSave.nextInt();
         this.setGame(true);
-        //this.cooldown = worldSave.nextInt();
-        //this.humanAbilityTime = worldSave.nextInt();
+        boolean x;
+        int ability = worldSave.nextInt();
+        if (ability == 1) {
+            x = true;
+        } else {
+            x = false;
+        }
+        //this.human.setSpecialAbility(x);
+        int c = worldSave.nextInt();
 
         array = new Organism[20][20];
 //        for (int i = 0; i < 20; i++) {
@@ -219,7 +247,7 @@ public class World {
             int age_val = worldSave.nextInt();
             coordinate pos = new coordinate(positionX_val, positionY_val);
             switch (name) {
-                case "X" -> setOrganismOnArray(new Human(strength_val, age_val, initiative_val, this, pos, false, 5), positionX_val, positionY_val);
+                case "X" -> setOrganismOnArray(new Human(strength_val, age_val, initiative_val, this, pos, x, c), positionX_val, positionY_val);
                 case "A" -> setOrganismOnArray(new Antylopa(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
                 case "L" -> setOrganismOnArray(new Lis(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
                 case "W" -> setOrganismOnArray(new Wilk(strength_val, age_val, initiative_val, this, pos), positionX_val, positionY_val);
@@ -244,8 +272,15 @@ public class World {
             //writer.println(height);
             // writer.println(width);
             writer.println(roundCounter);
-            // writer.println(cooldown);
-            //writer.println(humanAbilityTime);
+            boolean x = human.GetSpecialAbility();
+            int ability;
+            if (x) {
+                ability = 1;
+            } else {
+                ability = 0;
+            }
+            writer.println(ability);
+            writer.println(human.getCounter());
 
             for (int i = 0; i < 20; i++) {
                 for (int j = 0; j < 20; j++) {

@@ -11,6 +11,11 @@ public class Guarana extends Plant {
     }
 
     @Override
+    public String Name() {
+        return ("Guarana");
+    }
+
+    @Override
     public Color GetColor() {
         return (Color.orange);
     }

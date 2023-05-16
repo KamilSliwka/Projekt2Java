@@ -50,23 +50,33 @@ public abstract class Animal extends Organism {
             }
         } else if (org instanceof Guarana) {
             this.setForce(getForce() + 3);
-            //org.setAge(-1);
             ChangePosition(pos);
+            String message = this.Name() + " zjada Guarane";
+            getCurrentWorld().getAppGUI().returnInformationContainer().addMessage(message);
+
         } else if (org instanceof WilczeJagody) {
             getCurrentWorld().setOrganismOnArray(null, getPosition().getX(), getPosition().getY());
             this.setAge(-1);
+            String message = "Wilcze jagody zabijaja " + this.Name();
+            getCurrentWorld().getAppGUI().returnInformationContainer().addMessage(message);
 
         } else if (org instanceof BarszczSosnowskiego) {
             getCurrentWorld().setOrganismOnArray(null, getPosition().getX(), getPosition().getY());
             this.setAge(-1);
+            String message = "Barszcz  zabija " + this.Name();
+            getCurrentWorld().getAppGUI().returnInformationContainer().addMessage(message);
         } else if (this.getForce() >= org.getForce()) {
             org.setAge(-1);
             ChangePosition(pos);
+            String message = this.Name() + " zabija " + org.Name();
+            getCurrentWorld().getAppGUI().returnInformationContainer().addMessage(message);
         } else if (this.getForce() < org.getForce()) {
-            //this.setAge(-1);
+            this.setAge(-1);
             if (this instanceof Human) {
                 getCurrentWorld().setGame(false);
             }
+            String message = org.Name() + " zabija " + this.Name();
+            getCurrentWorld().getAppGUI().returnInformationContainer().addMessage(message);
             getCurrentWorld().setOrganismOnArray(null, getPosition().getX(), getPosition().getY());
         }
 

@@ -11,6 +11,11 @@ public class Trawa extends Plant {
     }
 
     @Override
+    public String Name() {
+        return ("Trawa");
+    }
+
+    @Override
     public Organism Multiplication(coordinate pos) {
         return new Trawa(0, 1, 0, getCurrentWorld(), pos);
     }

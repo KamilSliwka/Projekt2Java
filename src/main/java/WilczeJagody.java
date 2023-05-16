@@ -10,6 +10,10 @@ public class WilczeJagody extends Plant {
         return ("J");
     }
 
+    @Override
+    public String Name() {
+        return ("Jagody");
+    }
 
     @Override
     public Color GetColor() {

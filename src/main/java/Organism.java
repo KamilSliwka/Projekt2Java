@@ -18,6 +18,8 @@ public abstract class Organism {
 
     public abstract String GetName();
 
+    public abstract String Name();
+
     public abstract Color GetColor();
 
     public abstract void Action();
@@ -89,9 +91,18 @@ public abstract class Organism {
         return false;
     }
 
-    public int GetCounterAbility() {
+    public void setSpecialAbility(boolean specialAbility) {
+
+    }
+
+    public int getCounter() {
         return 0;
     }
+
+    public void setCounter(int counter) {
+
+    }
+
 
     public int getForce() {
         return force;

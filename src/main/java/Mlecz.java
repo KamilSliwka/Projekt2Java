@@ -10,6 +10,10 @@ public class Mlecz extends Plant {
         return ("M");
     }
 
+    @Override
+    public String Name() {
+        return ("Mlecz");
+    }
 
     @Override
     public Color GetColor() {

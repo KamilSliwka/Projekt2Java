@@ -12,6 +12,11 @@ public class Antylopa extends Animal {
     }
 
     @Override
+    public String Name() {
+        return ("Antylopa");
+    }
+
+    @Override
     public Color GetColor() {
         return (new Color(158, 87, 57));
     }

@@ -11,6 +11,11 @@ public class BarszczSosnowskiego extends Plant {
     }
 
     @Override
+    public String Name() {
+        return ("Barszcz");
+    }
+
+    @Override
     public Color GetColor() {
         return (Color.yellow);
     }

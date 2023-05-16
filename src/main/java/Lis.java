@@ -12,6 +12,10 @@ public class Lis extends Animal {
         return (new Color(255, 88, 27));
     }
 
+    @Override
+    public String Name() {
+        return ("Lis");
+    }
 
     @Override
     public coordinate Move() {

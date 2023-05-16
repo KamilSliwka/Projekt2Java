@@ -14,6 +14,11 @@ public class Zolw extends Animal {
     }
 
     @Override
+    public String Name() {
+        return ("Zolw");
+    }
+
+    @Override
     public String GetName() {
         return ("Z");
     }

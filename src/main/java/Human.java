@@ -11,18 +11,26 @@ public class Human extends Animal {
     }
 
     @Override
+    public String Name() {
+        return ("Czlowiek");
+    }
+
+    @Override
     public boolean GetSpecialAbility() {
         return specialAbility;
     }
 
+    @Override
     public void setSpecialAbility(boolean specialAbility) {
         this.specialAbility = specialAbility;
     }
 
+    @Override
     public int getCounter() {
         return counter;
     }
 
+    @Override
     public void setCounter(int counter) {
         this.counter = counter;
     }

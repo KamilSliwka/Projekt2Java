@@ -11,6 +11,11 @@ public class Wilk extends Animal {
     }
 
     @Override
+    public String Name() {
+        return ("Wilk");
+    }
+
+    @Override
     public Color GetColor() {
         return (Color.gray);
     }
